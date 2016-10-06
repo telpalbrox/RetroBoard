@@ -1,4 +1,4 @@
-package dev.luna;
+package dev.luna.models;
 
 /**
  * Created by alberto on 05/10/16.

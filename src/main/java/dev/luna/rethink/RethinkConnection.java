@@ -25,7 +25,6 @@ public class RethinkConnection implements Runnable {
 
     private RethinkConnection() {
         conn = r.connection().hostname("localhost").port(28015).connect();
-        r.db("test").tableCreate("lists").run(conn);
         new Thread(this).start();
     }
 

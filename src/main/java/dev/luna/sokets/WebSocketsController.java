@@ -1,5 +1,6 @@
-package dev.luna;
+package dev.luna.sokets;
 
+import dev.luna.models.ListAction;
 import dev.luna.rethink.RethinkConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -11,14 +12,11 @@ import org.springframework.stereotype.Controller;
  * Created by alberto on 04/10/16.
  */
 @Controller
-public class GreetingController {
-
-    private SimpMessagingTemplate template;
+public class WebSocketsController {
 
     @Autowired
-    public GreetingController(SimpMessagingTemplate template) {
+    public WebSocketsController(SimpMessagingTemplate template) {
         RethinkConnection.getInstance().setTemplate(template);
-        this.template = template;
     }
 
     @MessageMapping("/list/{id}")
