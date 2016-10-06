@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test web</title>
+</head>
+<body>
+<script>
+    const exampleSocket = new WebSocket("ws://localhost:8080/myHandler");
+    exampleSocket.onopen = () => {
+        exampleSocket.send("Here's some text that the server is urgently awaiting!");
+    };
+    // exampleSocket.send("Here's some text that the server is urgently awaiting!");
+</script>
+</body>
+</html>
