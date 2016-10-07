@@ -37,19 +37,7 @@ public class BoardsDAO {
         Cursor<Map> cursor = r.table("boards").run(connection.conn);
         List<Board> boards = new ArrayList<>();
         for (Map mapBoard : cursor) {
-            Board board = new Board((String) mapBoard.get("id"));
-            board.setName((String) mapBoard.get("name"));
-            boards.add(board);
-            for (Map mapSection : (List<Map>) mapBoard.get("sections")) {
-                Section section = new Section((String) mapSection.get("id"));
-                board.getSections().add(section);
-                if (mapBoard.get("tickets") != null) {
-                    for (Map mapTicket : (List<Map>) mapSection.get("tickets")) {
-                        Ticket ticket = new Ticket((String) mapTicket.get("id"));
-                        ticket.setContent((String) mapTicket.get("content"));
-                    }
-                }
-            }
+            boards.add(getBoardFromMap(mapBoard));
         }
 
         return boards;
@@ -59,5 +47,45 @@ public class BoardsDAO {
 		Map result = r.table("boards").insert(r.hashMap("name", name).with("sections", r.array())).run(connection.conn);
 		List generatedKeys = (List) result.get("generated_keys");
         return new Board((String) generatedKeys.get(0));
+    }
+
+    public Section createSection(String boardId, String name) {
+        String uuid = r.uuid().run(connection.conn);
+        Section section = new Section(uuid);
+        section.setName(name);
+        r.table("boards").get(boardId).update(
+                row -> r.hashMap("sections", row.g("sections").append(r.hashMap("id", uuid).with("name", name)))
+        ).run(connection.conn);
+        return section;
+    }
+
+    private Board getBoardFromMap(Map boardMap) {
+        Board board = new Board((String) boardMap.get("id"));
+        board.setName((String) boardMap.get("name"));
+        List<Map> sectionsMaps = (List<Map>) boardMap.get("sections");
+        if (sectionsMaps != null) {
+            for (Map sectionMap : sectionsMaps) {
+                board.getSections().add(getSectionFromMap(sectionMap));
+            }
+        }
+        return board;
+    }
+
+    private Section getSectionFromMap(Map sectionMap) {
+        Section section = new Section((String) sectionMap.get("id"));
+        section.setName((String) sectionMap.get("name"));
+        List<Map<String, String>> ticketsMaps = (List<Map<String, String>>) sectionMap.get("tickets");
+        if (ticketsMaps != null) {
+            for (Map<String, String> ticketMap : ticketsMaps) {
+                section.getTickets().add(getTicketFromMap(ticketMap));
+            }
+        }
+        return section;
+    }
+
+    private Ticket getTicketFromMap(Map<String, String> ticketMap) {
+        Ticket ticket = new Ticket(ticketMap.get("id"));
+        ticket.setContent(ticketMap.get("content"));
+        return  ticket;
     }
 }
