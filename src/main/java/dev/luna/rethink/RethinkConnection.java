@@ -28,28 +28,6 @@ public class RethinkConnection implements Runnable {
         new Thread(this).start();
     }
 
-    public void addList(String id) {
-        Cursor cursor = r.table("lists").filter((row) -> row.g("id").eq(id)).run(conn);
-        if (!cursor.toList().isEmpty()) {
-            return;
-        }
-        r.table("lists").insert(r.hashMap("id", id).with("items", r.array())).run(conn);
-    }
-
-    public void addItemToList(String id, String item) {
-        r.table("lists").filter(
-                row -> row.g("id").eq(id)
-        ).update(row -> r.hashMap("items", row.g("items").append(item))).run(conn);
-        template.convertAndSend("/list/" + id, item);
-    }
-
-    public void setTemplate(SimpMessagingTemplate template) {
-        if (template == null) {
-            return;
-        }
-        this.template = template;
-    }
-
     @Override
     public void run() {
         Cursor changeCursor = r.table("lists").changes().run(conn);
