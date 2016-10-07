@@ -1,5 +1,6 @@
 package dev.luna;
 
+import dev.luna.mongo.MorphiaDatabase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LoldemoApplication {
 
 	public static void main(String[] args) {
+        MorphiaDatabase.getInstance();
 		SpringApplication.run(LoldemoApplication.class, args);
 	}
 }

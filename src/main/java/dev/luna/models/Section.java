@@ -1,31 +1,24 @@
 package dev.luna.models;
 
-import java.util.ArrayList;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
+
 import java.util.List;
 
 /**
  * Created by alberto on 07/10/16.
  */
+@Entity("sections")
 public class Section {
-    private String id;
+    @Id
+    private long id;
     private String name;
+    @Reference
     private List<Ticket> tickets;
 
     public Section() {
 
-    }
-
-    public Section(String id) {
-        this.id = id;
-        this.tickets = new ArrayList<>();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public List<Ticket> getTickets() {
@@ -42,5 +35,13 @@ public class Section {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

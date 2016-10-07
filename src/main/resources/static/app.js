@@ -1,14 +1,29 @@
 var stompClient = null;
+var boardId = '0';
+var sectionId = '05bf10a7-ac8d-4c98-b1f7-9dcc0bd5e197';
 
-connect();
+//createTicket();
+createSection();
 
-function connect() {
+function createSection() {
     var socket = new SockJS('/socket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.send("/boards/77a90787-f4ae-473d-80cc-4b06841fdefc/sections/create", {}, JSON.stringify({type: 'add', name: 'test' + Date.now(), payload: 'test' + Date.now()}));
-        stompClient.subscribe('/boards/77a90787-f4ae-473d-80cc-4b06841fdefc', function (greeting) {
+        stompClient.send(`/boards/${boardId}/sections/create`, {}, JSON.stringify({content: 'ticket content', type: 'add', name: 'test' + Date.now(), payload: 'test' + Date.now()}));
+        stompClient.subscribe(`/boards/${boardId}`, function (greeting) {
+            console.log(greeting.body);
+        });
+    });
+}
+
+function createTicket() {
+    var socket = new SockJS('/socket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.send(`/boards/${boardId}/sections/${sectionId}/tickets/create`, {}, JSON.stringify({content: 'ticket content', type: 'add', name: 'test' + Date.now(), payload: 'test' + Date.now()}));
+        stompClient.subscribe(`/boards/${boardId}`, function (greeting) {
             console.log(greeting.body);
         });
     });

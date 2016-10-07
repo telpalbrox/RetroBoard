@@ -41,7 +41,7 @@ dependencies {
     compile("org.webjars:stomp-websocket:2.3.3")
     compile("org.webjars:bootstrap:3.3.7")
     compile("org.webjars:jquery:3.1.0")
-    compile group: 'com.rethinkdb', name: 'rethinkdb-driver', version: '2.3.3'
+    compile 'org.mongodb.morphia:morphia:1.2.1'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

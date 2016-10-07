@@ -1,7 +1,8 @@
 package dev.luna.sokets;
 
-import dev.luna.daos.BoardsDAO;
+import dev.luna.models.Board;
 import dev.luna.models.Section;
+import dev.luna.mongo.MorphiaDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,8 +24,13 @@ public class WebSocketsController {
     }
 
     @MessageMapping("/boards/{id}/sections/create")
-    public void createSection(Map<String, String> request, @DestinationVariable("id") String id) throws Exception {
-        Section section = BoardsDAO.getInstance().createSection(id, request.get("name"));
+    public void createSection(Map<String, String> request, @DestinationVariable("id") long id) throws Exception {
+        Section section = new Section();
+        section.setName(request.get("name"));
+        MorphiaDatabase.getInstance().datastore.save(section);
+        Board board = MorphiaDatabase.getInstance().datastore.get(Board.class, id);
+        board.getSections().add(section);
+        MorphiaDatabase.getInstance().datastore.save(board);
         template.convertAndSend("/boards/" + id, section);
     }
 }
