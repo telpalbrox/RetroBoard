@@ -2,10 +2,12 @@ package dev.luna.dao;
 
 import dev.luna.models.Board;
 import dev.luna.models.Section;
+import dev.luna.models.SocketResponse;
 import dev.luna.models.Ticket;
 import dev.luna.mongo.MorphiaDatabase;
 import org.mongodb.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,11 +19,13 @@ import java.util.UUID;
 @Repository
 public class BoardsDAO {
     private Datastore datastore;
-
+    private SimpMessagingTemplate socket;
+    private final String TOPIC = "/boards/";
 
     @Autowired
-    public BoardsDAO(MorphiaDatabase morphiaDatabase) {
+    public BoardsDAO(MorphiaDatabase morphiaDatabase, SimpMessagingTemplate template) {
         datastore = morphiaDatabase.datastore;
+        socket = template;
     }
 
     public Board createBoard(String name) {
@@ -42,6 +46,7 @@ public class BoardsDAO {
         Board board = datastore.createQuery(Board.class).field("uuid").equal(boardUuid).get();
         board.getSections().add(section);
         datastore.save(board);
+        socket.convertAndSend(TOPIC + boardUuid, new SocketResponse(SocketResponse.Type.ADDED, "section", section));
         return section;
     }
 
@@ -53,6 +58,7 @@ public class BoardsDAO {
         section.getTickets().add(ticket);
         datastore.save(ticket);
         datastore.save(section);
+        socket.convertAndSend(TOPIC + boardUuid, new SocketResponse(SocketResponse.Type.ADDED, "ticket", ticket));
         return ticket;
     }
 
@@ -62,6 +68,7 @@ public class BoardsDAO {
         section.removeTicket(ticket);
         datastore.save(section);
         datastore.delete(ticket);
+        socket.convertAndSend(TOPIC + boardUuid, new SocketResponse(SocketResponse.Type.REMOVED, "ticket"));
     }
 
     public void deleteSection(String boardUuid, String sectionUuid) {
@@ -73,6 +80,7 @@ public class BoardsDAO {
         }
         datastore.save(board);
         datastore.delete(section);
+        socket.convertAndSend(TOPIC + boardUuid, new SocketResponse(SocketResponse.Type.REMOVED, "section"));
     }
 
     public List<Board> getAllBoards() {

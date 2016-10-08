@@ -6,7 +6,6 @@ import dev.luna.models.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.util.Map;
@@ -16,25 +15,21 @@ import java.util.Map;
  */
 @Controller
 public class WebSocketsController {
-    private SimpMessagingTemplate template;
     private BoardsDAO boardsDAO;
 
     @Autowired
-    public WebSocketsController(BoardsDAO boardsDAO, SimpMessagingTemplate template) {
+    public WebSocketsController(BoardsDAO boardsDAO) {
         this.boardsDAO = boardsDAO;
-        this.template = template;
     }
 
     @MessageMapping("/boards/{uuid}/sections/create")
     public void createSection(Map<String, String> request, @DestinationVariable("uuid") String uuid) throws Exception {
         Section section = boardsDAO.createSection(uuid, request.get("name"));
-        template.convertAndSend("/boards/" + uuid, section);
     }
 
     @MessageMapping("/boards/{boardUuid}/sections/{sectionUuid}/tickets/create")
     public void createTicket(Map<String, String> request, @DestinationVariable("boardUuid") String boardUuid, @DestinationVariable("sectionUuid") String sectionUuid) {
         Ticket ticket = boardsDAO.createTicket(boardUuid, sectionUuid, request.get("content"));
-        template.convertAndSend("/boards/" + boardUuid, ticket);
     }
 
     @MessageMapping("/boards/{boardUuid}/sections/{sectionUuid}/tickets/{ticketUuid}/delete")
