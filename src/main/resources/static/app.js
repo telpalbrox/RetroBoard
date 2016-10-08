@@ -1,9 +1,9 @@
 var stompClient = null;
 var boardId = '0';
-var sectionId = '05bf10a7-ac8d-4c98-b1f7-9dcc0bd5e197';
+var sectionId = '0';
 
-//createTicket();
-createSection();
+createTicket();
+//createSection();
 
 function createSection() {
     var socket = new SockJS('/socket');
