@@ -41,6 +41,11 @@ public class RESTController {
         boardsDAO.deleteTicket(boardUuid, sectionUuid, ticketUuid);
     }
 
+    @DeleteMapping("/boards/{boardUuid}/sections/{sectionUuid}")
+    public void deleteSection(@PathVariable("boardUuid") String boardUuid, @PathVariable("sectionUuid") String sectionUuid) {
+        boardsDAO.deleteSection(boardUuid, sectionUuid);
+    }
+
     @GetMapping("/boards")
     public List<Board> getAllBoards() {
         return boardsDAO.getAllBoards();

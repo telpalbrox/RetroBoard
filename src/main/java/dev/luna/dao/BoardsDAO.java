@@ -56,8 +56,19 @@ public class BoardsDAO {
         Ticket ticket = datastore.createQuery(Ticket.class).field("uuid").equal(ticketUuid).get();
         Section section = datastore.createQuery(Section.class).field("uuid").equal(sectionUuid).get();
         section.removeTicket(ticket);
-        datastore.delete(ticket);
         datastore.save(section);
+        datastore.delete(ticket);
+    }
+
+    public void deleteSection(String boardUuid, String sectionUuid) {
+        Board board = datastore.createQuery(Board.class).field("uuid").equal(boardUuid).get();
+        Section section = datastore.createQuery(Section.class).field("uuid").equal(sectionUuid).get();
+        board.removeSection(section);
+        for (Ticket ticket : section.getTickets()) {
+            deleteTicket(boardUuid, sectionUuid, ticket.getUuid());
+        }
+        datastore.save(board);
+        datastore.delete(section);
     }
 
     public List<Board> getAllBoards() {

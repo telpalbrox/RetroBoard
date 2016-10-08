@@ -41,4 +41,9 @@ public class WebSocketsController {
     public void deleteTicket(@DestinationVariable("boardUuid") String boardUuid, @DestinationVariable("sectionUuid") String sectionUuid, @DestinationVariable("ticketUuid") String ticketUuid) {
         boardsDAO.deleteTicket(boardUuid, sectionUuid, ticketUuid);
     }
+
+    @MessageMapping("/boards/{boardUuid}/sections/{sectionUuid}/delete")
+    public void deleteSection(@DestinationVariable("boardUuid") String boardUuid, @DestinationVariable("sectionUuid") String sectionUuid) {
+        boardsDAO.deleteSection(boardUuid, sectionUuid);
+    }
 }

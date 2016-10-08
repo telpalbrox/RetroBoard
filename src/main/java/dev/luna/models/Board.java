@@ -29,6 +29,13 @@ public class Board {
         this.uuid = uuid;
     }
 
+    public boolean removeSection(Section section) {
+        Section sectionToRemove = getSections().stream().filter(
+                sectionBoard -> sectionBoard.getUuid().equals(section.getUuid())
+        ).findFirst().get();
+        return getSections().remove(sectionToRemove);
+    }
+
     public String getName() {
         return name;
     }
