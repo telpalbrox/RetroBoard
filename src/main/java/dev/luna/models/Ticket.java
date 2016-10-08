@@ -1,5 +1,7 @@
 package dev.luna.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
@@ -9,11 +11,17 @@ import org.mongodb.morphia.annotations.Id;
 @Entity("tickets")
 public class Ticket {
     @Id
-    private long id;
+    @JsonIgnore
+    private ObjectId id;
+    private String uuid;
     private String content;
 
     public Ticket() {
 
+    }
+    
+    public Ticket(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getContent() {
@@ -24,11 +32,19 @@ public class Ticket {
         this.content = content;
     }
 
-    public long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

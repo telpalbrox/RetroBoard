@@ -1,5 +1,7 @@
 package dev.luna.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
@@ -12,13 +14,26 @@ import java.util.List;
 @Entity("sections")
 public class Section {
     @Id
-    private long id;
+    @JsonIgnore
+    private ObjectId id;
+    private String uuid;
     private String name;
     @Reference
     private List<Ticket> tickets;
 
     public Section() {
 
+    }
+    
+    public Section(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public boolean removeTicket(Ticket ticket) {
+        Ticket ticketToRemove = getTickets().stream().filter(
+                ticketSection -> ticketSection.getUuid().equals(ticket.getUuid())
+        ).findFirst().get();
+        return getTickets().remove(ticketToRemove);
     }
 
     public List<Ticket> getTickets() {
@@ -37,11 +52,19 @@ public class Section {
         this.name = name;
     }
 
-    public long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }
