@@ -20,6 +20,16 @@ public class RESTController {
         this.boardsDAO = boardsDAO;
     }
 
+    @GetMapping("/boards/{name}")
+    public Board getBoardByName(@PathVariable("name") String name) {
+        return boardsDAO.getBoardByName(name);
+    }
+
+    @GetMapping("/boards")
+    public List<Board> getAllBoards() {
+        return boardsDAO.getAllBoards();
+    }
+
     @PostMapping("/boards")
     public CreateBoardResponse createBoard(@RequestBody CreateBoardRequest request) {
         Board board = boardsDAO.createBoard(request.getName());
@@ -44,10 +54,5 @@ public class RESTController {
     @DeleteMapping("/boards/{boardUuid}/sections/{sectionUuid}")
     public void deleteSection(@PathVariable("boardUuid") String boardUuid, @PathVariable("sectionUuid") String sectionUuid) {
         boardsDAO.deleteSection(boardUuid, sectionUuid);
-    }
-
-    @GetMapping("/boards")
-    public List<Board> getAllBoards() {
-        return boardsDAO.getAllBoards();
     }
 }

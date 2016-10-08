@@ -31,6 +31,10 @@ public class BoardsDAO {
         return board;
     }
 
+    public Board getBoardByName(String name) {
+        return datastore.createQuery(Board.class).field("name").equal(name).get();
+    }
+
     public Section createSection(String boardUuid, String name) {
         Section section = new Section(UUID.randomUUID().toString());
         section.setName(name);
