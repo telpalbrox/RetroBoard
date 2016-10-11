@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import appReducer from './reducers' ;
 import HomePage from './pages/HomePage';
+import BoardPage from './pages/BoardPage';
 import './index.css';
 
 require('react-tap-event-plugin')();
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Router history={history}>
             <Route path="/" component={App}>
                 <IndexRoute component={HomePage}/>
+                <Route path="/board/:name" component={BoardPage}/>
             </Route>
         </Router>
     </Provider>,

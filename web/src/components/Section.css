@@ -1,0 +1,4 @@
+.section__name {
+    text-overflow: ellipsis;
+    padding: 5px;
+}

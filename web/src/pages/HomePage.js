@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { push } from 'react-router-redux';
 import { createBoard } from '../actions/boards';
 
 class HomePage extends Component {
@@ -18,16 +19,20 @@ class HomePage extends Component {
                     floatingLabelText="Name your board"
                     ref={(node) => this.nameInput = node}
                 />
-                <RaisedButton label="Create" primary={true} onTouchTap={() => this.onCreateBoard()} />
+                <RaisedButton disabled={this.props.loading} label="Create" primary={true} onTouchTap={() => this.onCreateBoard()} />
             </div>
         );
     }
 
-    onCreateBoard() {
+    async onCreateBoard() {
         if (!this.nameInput.getValue()) {
             return;
         }
-        this.props.dispatch(createBoard(this.nameInput.getValue()));
+        try {
+            await this.props.dispatch(createBoard(this.nameInput.getValue()));
+            this.props.dispatch(push(`/board/${this.nameInput.getValue()}`));
+        } catch(e) { }
+
     }
 }
 

@@ -3,6 +3,7 @@ package dev.luna.rest;
 import dev.luna.dao.BoardsDAO;
 import dev.luna.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,11 @@ public class RESTController {
 
     @GetMapping("/boards/{name}")
     public Board getBoardByName(@PathVariable("name") String name) {
-        return boardsDAO.getBoardByName(name);
+        Board board = boardsDAO.getBoardByName(name);
+        if (board == null) {
+            throw new ResourceNotFoundException();
+        }
+        return board;
     }
 
     @GetMapping("/boards")
@@ -55,4 +60,7 @@ public class RESTController {
     public void deleteSection(@PathVariable("boardUuid") String boardUuid, @PathVariable("sectionUuid") String sectionUuid) {
         boardsDAO.deleteSection(boardUuid, sectionUuid);
     }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    private final class ResourceNotFoundException extends RuntimeException { }
 }
