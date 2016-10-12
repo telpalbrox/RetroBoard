@@ -5,7 +5,6 @@ export default class Ticket extends Component {
 
     constructor(props) {
         super(props);
-        this.ticket = props.ticket;
         this.containerStyle = {
             margin: '7px 0'
         };
@@ -15,7 +14,7 @@ export default class Ticket extends Component {
         return (
             <Card containerStyle={this.containerStyle}>
                 <CardText>
-                    { this.ticket.content }
+                    { this.props.ticket.content }
                 </CardText>
             </Card>
         );

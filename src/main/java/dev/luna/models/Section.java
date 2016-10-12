@@ -6,6 +6,7 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class Section {
     
     public Section(String uuid) {
         this.uuid = uuid;
+        this.tickets = new ArrayList<>();
     }
 
     public boolean removeTicket(Ticket ticket) {

@@ -56,6 +56,7 @@ public class BoardsDAO {
         ticket.setContent(content);
         Section section = datastore.createQuery(Section.class).field("uuid").equal(sectionUuid).get();
         section.getTickets().add(ticket);
+        ticket.setSectionUuid(section.getUuid());
         datastore.save(ticket);
         datastore.save(section);
         socket.convertAndSend(TOPIC + boardUuid, new SocketResponse(SocketResponse.Type.ADDED, "ticket", ticket));

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Transient;
 
 /**
  * Created by alberto on 07/10/16.
@@ -15,6 +16,8 @@ public class Ticket {
     private ObjectId id;
     private String uuid;
     private String content;
+    @Transient
+    private String sectionUuid;
 
     public Ticket() {
 
@@ -46,5 +49,13 @@ public class Ticket {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public void setSectionUuid(String sectionUuid) {
+        this.sectionUuid = sectionUuid;
+    }
+
+    public String getSectionUuid() {
+        return sectionUuid;
     }
 }

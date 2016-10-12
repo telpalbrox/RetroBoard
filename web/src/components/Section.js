@@ -21,7 +21,7 @@ export default class Section extends Component {
             <Paper style={this.paperStyle}>
                 <section>
                     <h3 className="section__name">{this.section.name}</h3>
-                    {this.section.tickets.map((ticket) => <Ticket key={ticket.uuid} ticket={ticket} />)}
+                    {this.props.section.tickets.map((ticket) => <Ticket key={ticket.uuid} ticket={ticket} />)}
                 </section>
             </Paper>
         );

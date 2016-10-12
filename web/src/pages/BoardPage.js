@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
-import { getBoard } from '../actions/boards';
+import { getBoard, connectBoard } from '../actions/boards';
 import Section from '../components/Section';
 
 class BoardPage extends Component {
@@ -10,8 +10,9 @@ class BoardPage extends Component {
         return { loading, error, board};
     }
 
-    componentWillMount() {
-        this.props.dispatch(getBoard(this.props.params.name));
+    async componentWillMount() {
+        const board = await this.props.dispatch(getBoard(this.props.params.name));
+        this.props.dispatch(connectBoard(board.uuid));
     }
 
     render() {
