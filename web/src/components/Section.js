@@ -7,7 +7,6 @@ export default class Section extends Component {
 
     constructor(props) {
         super(props);
-        this.section = props.section;
         this.paperStyle = {
             flex: '1 0 200px',
             maxWidth: '250px',
@@ -17,11 +16,12 @@ export default class Section extends Component {
     }
 
     render() {
+        const { section } = this.props;
         return (
             <Paper style={this.paperStyle}>
                 <section>
-                    <h3 className="section__name">{this.section.name}</h3>
-                    {this.props.section.tickets.map((ticket) => <Ticket key={ticket.uuid} ticket={ticket} />)}
+                    <h3 className="section__name">{section.name}</h3>
+                    {section.tickets.map((ticket) => <Ticket key={ticket.uuid} ticket={ticket} />)}
                 </section>
             </Paper>
         );

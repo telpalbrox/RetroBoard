@@ -24,10 +24,11 @@ class BoardPage extends Component {
         }
 
         const { board } = this.props;
+        console.log('render');
         return (
             <div>
                 <AppBar
-                    title={`Retro board ${this.props.board.name}`}
+                    title={`Retro board ${board.name}`}
                 />
                 <div className="content">
                     <div className="sections-container">

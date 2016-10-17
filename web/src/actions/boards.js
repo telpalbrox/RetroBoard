@@ -13,7 +13,9 @@ export const actions = {
     ADD_TICKET: 'ADD_TICKET',
     REMOVE_TICKET: 'REMOVE_TICKET',
     ADD_SECTION: 'ADD_SECTION',
-    REMOVE_SECTION: 'REMOVE_SECTION'
+    REMOVE_SECTION: 'REMOVE_SECTION',
+    TICKET_DELETED: 'TICKET_DELETED',
+    SECTION_DELETED: 'SECTION_DELETED'
 };
 
 let stompClient = null;
@@ -52,6 +54,14 @@ export const connectBoard = (uuid) => async (dispatch) => {
         }
         if (event.type === 'ADDED' && event.entity === 'section') {
             return dispatch({ type: actions.ADD_SECTION, section: event.payload });
+        }
+        console.log('lol');
+        if (event.type === 'REMOVED' && event.entity === 'ticket') {
+            console.log('lal');
+            return dispatch({ type: actions.TICKET_DELETED, ticket: event.payload });
+        }
+        if (event.type === 'REMOVED' && event.entity === 'section') {
+            return dispatch({ type: actions.SECTION_DELETED, section: event.payload });
         }
     }));
 }

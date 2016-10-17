@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { actions } from '../actions/boards';
 
 const initialState = {
@@ -8,6 +9,10 @@ const initialState = {
 
 const getSectionByUuid = (sections, uuid) => {
     return sections.find((section) => section.uuid === uuid);
+};
+
+const getTicketByUuid = (tickets, uuid) => {
+    return tickets.find((ticket) => ticket.uuid === uuid);
 };
 
 export const boardReducer = (state = initialState, action) => {
@@ -25,9 +30,29 @@ export const boardReducer = (state = initialState, action) => {
                 })
             });
         case actions.ADD_TICKET:
-            const section = getSectionByUuid(state.board.sections, action.ticket.sectionUuid);
-            const sectionIndex = state.board.sections.indexOf(section);
-            const newSection = Object.assign({}, section, { tickets: [...section.tickets, action.ticket] });
+            var section = getSectionByUuid(state.board.sections, action.ticket.sectionUuid);
+            var sectionIndex = state.board.sections.indexOf(section);
+            var newSection = Object.assign({}, section, { tickets: [...section.tickets, action.ticket] });
+            return Object.assign({}, state, {
+                board: Object.assign({}, state.board, {
+                    sections: [...state.board.sections.slice(0, sectionIndex), newSection, ...state.board.sections.slice(sectionIndex + 1)]
+                })
+            });
+        case actions.SECTION_DELETED:
+            var section = getSectionByUuid(state.board.sections, action.ticket.sectionUuid);
+            var sectionIndex = state.board.sections.indexOf(section);
+            return Object.assign({}, state, {
+                board: Object.assign({}, state.board, {
+                    sections: [...state.board.sections.slice(0, sectionIndex), ...state.board.sections.slice(sectionIndex + 1)]
+                })
+            });
+        case actions.TICKET_DELETED:
+            console.log('ticket deleted');
+            var section = getSectionByUuid(state.board.sections, action.ticket.sectionUuid);
+            var sectionIndex = state.board.sections.indexOf(section);
+            var ticket = getTicketByUuid(section.tickets, action.ticket.uuid);
+            var ticketIndex = section.tickets.indexOf(ticket);
+            var newSection = Object.assign({}, section, { tickets: [...section.tickets.slice(0, ticketIndex), ...section.tickets.slice(ticketIndex + 1)] });
             return Object.assign({}, state, {
                 board: Object.assign({}, state.board, {
                     sections: [...state.board.sections.slice(0, sectionIndex), newSection, ...state.board.sections.slice(sectionIndex + 1)]
