@@ -24,7 +24,6 @@ class BoardPage extends Component {
         }
 
         const { board } = this.props;
-        console.log('render');
         return (
             <div>
                 <AppBar

@@ -39,7 +39,7 @@ export const boardReducer = (state = initialState, action) => {
                 })
             });
         case actions.SECTION_DELETED:
-            var section = getSectionByUuid(state.board.sections, action.ticket.sectionUuid);
+            var section = getSectionByUuid(state.board.sections, action.section.uuid);
             var sectionIndex = state.board.sections.indexOf(section);
             return Object.assign({}, state, {
                 board: Object.assign({}, state.board, {
@@ -47,7 +47,6 @@ export const boardReducer = (state = initialState, action) => {
                 })
             });
         case actions.TICKET_DELETED:
-            console.log('ticket deleted');
             var section = getSectionByUuid(state.board.sections, action.ticket.sectionUuid);
             var sectionIndex = state.board.sections.indexOf(section);
             var ticket = getTicketByUuid(section.tickets, action.ticket.uuid);

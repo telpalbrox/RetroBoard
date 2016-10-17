@@ -55,9 +55,7 @@ export const connectBoard = (uuid) => async (dispatch) => {
         if (event.type === 'ADDED' && event.entity === 'section') {
             return dispatch({ type: actions.ADD_SECTION, section: event.payload });
         }
-        console.log('lol');
         if (event.type === 'REMOVED' && event.entity === 'ticket') {
-            console.log('lal');
             return dispatch({ type: actions.TICKET_DELETED, ticket: event.payload });
         }
         if (event.type === 'REMOVED' && event.entity === 'section') {
