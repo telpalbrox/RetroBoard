@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
-import { getBoard, connectBoard } from '../actions/boards';
+import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import { getBoard, connectBoard, createSection } from '../actions/boards';
 import Section from '../components/Section';
+import './BoardPage.css';
 
 class BoardPage extends Component {
     static mapStateToProps(state) {
@@ -34,10 +37,34 @@ class BoardPage extends Component {
                         {board.sections.map((section) => {
                             return (<Section key={section.uuid} section={section} />);
                         })}
+                        <Section>
+                            <div className="create-section">
+                                <h4>Create a new section</h4>
+                                <div className="create-section__input">
+                                    <TextField
+                                        inputStyle={this.createSectionInputStyles}
+                                        fullWidth={true}
+                                        hintText="Action items"
+                                        floatingLabelText="Name your section"
+                                        ref={(node) => this.sectionNameInput = node}
+                                    />
+                                </div>
+                                <RaisedButton disabled={this.props.loading} label="Create" primary={true} onTouchTap={() => this.onCreateSection()} />
+                            </div>
+                        </Section>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    async onCreateSection() {
+        if (!this.sectionNameInput.getValue()) {
+            return;
+        }
+        await this.props.dispatch(createSection({ boardUuid: this.props.board.uuid, name: this.sectionNameInput.getValue() }));
+        this.sectionNameInput.input.value = '';
+        this.sectionNameInput.setState({ hasValue: false });
     }
 }
 

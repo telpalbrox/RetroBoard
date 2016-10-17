@@ -15,7 +15,10 @@ export const actions = {
     ADD_SECTION: 'ADD_SECTION',
     REMOVE_SECTION: 'REMOVE_SECTION',
     TICKET_DELETED: 'TICKET_DELETED',
-    SECTION_DELETED: 'SECTION_DELETED'
+    SECTION_DELETED: 'SECTION_DELETED',
+    CREATE_SECTION: 'CREATE_SECTION',
+    CREATE_SECTION_SUCCESS: 'CREATE_SECTION_SUCCESS',
+    CREATE_SECTION_ERROR: 'CREATE_SECTION_ERROR'
 };
 
 let stompClient = null;
@@ -44,7 +47,7 @@ export const getBoard = (name) => async (dispatch) => {
     }
 };
 
-export const connectBoard = (uuid) => async (dispatch) => {
+export const connectBoard = (uuid) => (dispatch) => {
     const socket = new SockJS(`${config.apiUrl}/socket`);
     stompClient = Stomp.over(socket);
     stompClient.connect({}, () => stompClient.subscribe(`/boards/${uuid}`, (event) => {
@@ -63,3 +66,16 @@ export const connectBoard = (uuid) => async (dispatch) => {
         }
     }));
 }
+
+export const createSection = ({ boardUuid, name }) => async (dispatch) => {
+    dispatch({ type: actions.CREATE_BOARD, name });
+    try {
+        const response = await axios.post(`${config.apiUrl}/boards/${boardUuid}/sections`, { name });
+        dispatch({ type: actions.CREATE_BOARD_SUCCESS, section: response.data });
+        return response.data;
+    } catch (e) {
+        dispatch({ type: actions.CREATE_BOARD_ERROR, error: e });
+        throw e;
+    }
+
+};

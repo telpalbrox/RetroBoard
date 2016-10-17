@@ -11,12 +11,20 @@ export default class Section extends Component {
             flex: '1 0 200px',
             maxWidth: '250px',
             margin: '28px 15px',
-            padding: '5px'
+            padding: '5px',
+            minHeight: '300px'
         };
     }
 
     render() {
         const { section } = this.props;
+        if (this.props.children) {
+            return (
+                <Paper style={this.paperStyle}>
+                    { this.props.children }
+                </Paper>
+            );
+        }
         return (
             <Paper style={this.paperStyle}>
                 <section>
