@@ -55,9 +55,9 @@ export default class Section extends Component {
                         color={red500}>delete
                     </IconButton>
                     <h3 className="section__name">{section.name}</h3>
-                    {section.tickets.map((ticket) => <Ticket key={ticket.uuid} ticket={ticket} />)}
+                    {section.tickets.map((ticket) => <Ticket onRemoveTicket={() => {this.props.onRemoveTicket(section.uuid, ticket)}} key={ticket.uuid} ticket={ticket} />)}
                     <div className="add-ticket">
-                        <TextField fullWidth={true} hintText="Ticket Text" ref={(node) => this.ticketContentInput = node}/>
+                        <TextField fullWidth={true} hintText="Ticket content" ref={(node) => this.ticketContentInput = node}/>
                         <FlatButton onTouchTap={() => this.onCreateTicket()} label="Add" />
                     </div>
                 </section>

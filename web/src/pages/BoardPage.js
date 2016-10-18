@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { getBoard, connectBoard, createSection, removeSection, createTicket } from '../actions/boards';
+import { getBoard, connectBoard, createSection, removeSection, createTicket, removeTicket } from '../actions/boards';
 import Section from '../components/Section';
 import './BoardPage.css';
 
@@ -38,7 +38,8 @@ class BoardPage extends Component {
                             return (<Section
                                 onCreateTicket={(sectionUuid, content) => this.onCreateTicket(sectionUuid, content)}
                                 key={section.uuid} section={section} boardUuid={board.uuid}
-                                onRemoveSection={() => this.onRemoveSection(section)} />);
+                                onRemoveTicket={(sectionUuid, ticket) => this.onRemoveTicket(sectionUuid, ticket)}
+                                onRemoveSection={() => this.onRemoveSection(section)}/>);
                         })}
                         <Section>
                             <div className="create-section">
@@ -76,6 +77,10 @@ class BoardPage extends Component {
 
     async onCreateTicket(sectionUuid, content) {
         await this.props.dispatch(createTicket({ boardUuid: this.props.board.uuid, sectionUuid, content }));
+    }
+
+    onRemoveTicket(sectionUuid, ticket) {
+        this.props.dispatch(removeTicket({boardUuid: this.props.board.uuid, sectionUuid, ticket}));
     }
 }
 

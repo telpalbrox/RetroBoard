@@ -113,7 +113,7 @@ export const createTicket = ({ boardUuid, sectionUuid, content }) => async (disp
 export const removeTicket = ({ boardUuid, sectionUuid, ticket }) => async (dispatch) => {
     dispatch({ type: actions.REMOVE_TICKET, ticket });
     try {
-        const response = await axios.delete(`${config.apiUrl}/boards/${boardUuid}/sections/${sectionUuid}/ticket/${ticket.uuid}`);
+        const response = await axios.delete(`${config.apiUrl}/boards/${boardUuid}/sections/${sectionUuid}/tickets/${ticket.uuid}`);
         dispatch({ type: actions.REMOVE_TICKET_SUCCESS, section: response.data });
         return response.data;
     } catch (e) {
