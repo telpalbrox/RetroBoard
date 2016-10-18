@@ -14,11 +14,13 @@ export const actions = {
     REMOVE_TICKET: 'REMOVE_TICKET',
     ADD_SECTION: 'ADD_SECTION',
     REMOVE_SECTION: 'REMOVE_SECTION',
+    REMOVE_SECTION_SUCCESS: 'REMOVE_SECTION_SUCCESS',
+    REMOVE_SECTION_ERROR: 'REMOVE_SECTION_ERROR',
     TICKET_DELETED: 'TICKET_DELETED',
     SECTION_DELETED: 'SECTION_DELETED',
     CREATE_SECTION: 'CREATE_SECTION',
     CREATE_SECTION_SUCCESS: 'CREATE_SECTION_SUCCESS',
-    CREATE_SECTION_ERROR: 'CREATE_SECTION_ERROR'
+    CREATE_SECTION_ERROR: 'CREATE_SECTION_ERROR',
 };
 
 let stompClient = null;
@@ -77,5 +79,16 @@ export const createSection = ({ boardUuid, name }) => async (dispatch) => {
         dispatch({ type: actions.CREATE_BOARD_ERROR, error: e });
         throw e;
     }
+};
 
+export const removeSection = ({ boardUuid, section }) => async (dispatch) => {
+    dispatch({ type: actions.REMOVE_SECTION, section });
+    try {
+        const response = await axios.delete(`${config.apiUrl}/boards/${boardUuid}/sections/${section.uuid}`);
+        dispatch({ type: actions.REMOVE_SECTION_SUCCESS, section: response.data });
+        return response.data;
+    } catch (e) {
+        dispatch({ type: actions.REMOVE_SECTION_ERROR, error: e });
+        throw e;
+    }
 };
