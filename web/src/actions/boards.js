@@ -12,6 +12,8 @@ export const actions = {
     GET_BOARD_ERROR: 'GET_BOARD_ERROR',
     ADD_TICKET: 'ADD_TICKET',
     REMOVE_TICKET: 'REMOVE_TICKET',
+    REMOVE_TICKET_SUCCESS: 'REMOVE_TICKET_SUCCESS',
+    REMOVE_TICKET_ERROR: 'REMOVE_TICKET_ERROR',
     ADD_SECTION: 'ADD_SECTION',
     REMOVE_SECTION: 'REMOVE_SECTION',
     REMOVE_SECTION_SUCCESS: 'REMOVE_SECTION_SUCCESS',
@@ -21,6 +23,9 @@ export const actions = {
     CREATE_SECTION: 'CREATE_SECTION',
     CREATE_SECTION_SUCCESS: 'CREATE_SECTION_SUCCESS',
     CREATE_SECTION_ERROR: 'CREATE_SECTION_ERROR',
+    CREATE_TICKET: 'CREATE_TICKET',
+    CREATE_TICKET_SUCCESS: 'CREATE_TICKET_SUCCESS',
+    CREATE_TICKET_ERROR: 'CREATE_TICKET_ERROR',
 };
 
 let stompClient = null;
@@ -89,6 +94,30 @@ export const removeSection = ({ boardUuid, section }) => async (dispatch) => {
         return response.data;
     } catch (e) {
         dispatch({ type: actions.REMOVE_SECTION_ERROR, error: e });
+        throw e;
+    }
+};
+
+export const createTicket = ({ boardUuid, sectionUuid, content }) => async (dispatch) => {
+    dispatch({ type: actions.CREATE_TICKET, content });
+    try {
+        const response = await axios.post(`${config.apiUrl}/boards/${boardUuid}/sections/${sectionUuid}/tickets`, { content });
+        dispatch({ type: actions.CREATE_TICKET_ERROR, section: response.data });
+        return response.data;
+    } catch (e) {
+        dispatch({ type: actions.CREATE_TICKET_ERROR, error: e });
+        throw e;
+    }
+};
+
+export const removeTicket = ({ boardUuid, sectionUuid, ticket }) => async (dispatch) => {
+    dispatch({ type: actions.REMOVE_TICKET, ticket });
+    try {
+        const response = await axios.delete(`${config.apiUrl}/boards/${boardUuid}/sections/${sectionUuid}/ticket/${ticket.uuid}`);
+        dispatch({ type: actions.REMOVE_TICKET_SUCCESS, section: response.data });
+        return response.data;
+    } catch (e) {
+        dispatch({ type: actions.REMOVE_TICKET_ERROR, error: e });
         throw e;
     }
 };
