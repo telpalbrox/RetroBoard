@@ -2,7 +2,7 @@
   "name": "retro-board",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://telpalbrox.github.io/RetroBoard",
+  "homepage": "https://telpalbrox.github.io/RetroBoard",
   "devDependencies": {
     "gh-pages": "^0.11.0",
     "react-scripts": "0.6.1"
