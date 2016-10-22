@@ -25,3 +25,4 @@ nbdist/
 .nb-gradle/
 
 **/npm-debug.log
+src/main/resources/static
