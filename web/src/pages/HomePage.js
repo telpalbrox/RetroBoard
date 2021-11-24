@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { push } from 'react-router-redux';
 import { createBoard } from '../actions/boards';
+import { withRouter } from "react-router-dom";
 
 class HomePage extends Component {
     static mapStateToProps(state) {
@@ -19,7 +19,7 @@ class HomePage extends Component {
                     floatingLabelText="Name your board"
                     ref={(node) => this.nameInput = node}
                 />
-                <RaisedButton disabled={this.props.loading} label="Create" primary={true} onTouchTap={() => this.onCreateBoard()} />
+                <RaisedButton disabled={this.props.loading} label="Create" primary={true} onClick={() => this.onCreateBoard()} />
             </div>
         );
     }
@@ -30,10 +30,12 @@ class HomePage extends Component {
         }
         try {
             await this.props.dispatch(createBoard(this.nameInput.getValue()));
-            this.props.dispatch(push(`/board/${this.nameInput.getValue()}`));
-        } catch(e) { }
+            this.props.dispatch(this.props.history.push(`/board/${this.nameInput.getValue()}`));
+        } catch(e) {
+            console.error(e);
+        }
 
     }
 }
 
-export default connect(HomePage.mapStateToProps)(HomePage);
+export default withRouter(connect(HomePage.mapStateToProps)(HomePage));

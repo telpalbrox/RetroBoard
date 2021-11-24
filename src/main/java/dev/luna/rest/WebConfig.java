@@ -12,7 +12,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH");
+        registry.addMapping("/**").allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH").allowedOrigins("http://localhost:3000", "https://telpalbrox.github.io");
     }
 
 }

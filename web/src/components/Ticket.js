@@ -29,10 +29,11 @@ export default class Ticket extends Component {
         return (
             <Card containerStyle={this.containerStyle}>
                 <IconButton
-                    onTouchTap={() => this.props.onRemoveTicket()}
+                    onClick={() => this.props.onRemoveTicket()}
                     style={this.removeButtonStyle}
                     iconClassName="material-icons"
-                    iconStyle={this.removeIconStyle}>delete
+                    iconStyle={this.removeIconStyle}
+                    size="large">delete
                 </IconButton>
                 <CardText>
                     { this.props.ticket.content }

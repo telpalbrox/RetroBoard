@@ -48,7 +48,7 @@ export default class Section extends Component {
             <Paper style={this.paperStyle}>
                 <section className="section">
                     <IconButton
-                        onTouchTap={() => this.props.onRemoveSection()}
+                        onClick={() => this.props.onRemoveSection()}
                         style={this.removeButtonStyle}
                         iconClassName="material-icons section__remove"
                         iconStyle={this.removeIconStyle}
@@ -58,7 +58,7 @@ export default class Section extends Component {
                     {section.tickets.map((ticket) => <Ticket onRemoveTicket={() => {this.props.onRemoveTicket(section.uuid, ticket)}} key={ticket.uuid} ticket={ticket} />)}
                     <div className="add-ticket">
                         <TextField fullWidth={true} hintText="Ticket content" ref={(node) => this.ticketContentInput = node}/>
-                        <FlatButton onTouchTap={() => this.onCreateTicket()} label="Add" />
+                        <FlatButton onClick={() => this.onCreateTicket()} label="Add" />
                     </div>
                 </section>
             </Paper>

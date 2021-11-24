@@ -20,7 +20,7 @@ public class Section {
     private String uuid;
     private String name;
     @Reference
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new ArrayList<>();
 
     public Section() {
 

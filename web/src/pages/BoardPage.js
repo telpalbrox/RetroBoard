@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -14,7 +15,7 @@ class BoardPage extends Component {
     }
 
     async componentWillMount() {
-        const board = await this.props.dispatch(getBoard(this.props.params.name));
+        const board = await this.props.dispatch(getBoard(this.props.match.params.name));
         this.props.dispatch(connectBoard(board.uuid));
     }
 
@@ -34,7 +35,7 @@ class BoardPage extends Component {
                 />
                 <div className="content">
                     <div className="sections-container">
-                        {board.sections.map((section) => {
+                        {board.sections && board.sections.map((section) => {
                             return (<Section
                                 onCreateTicket={(sectionUuid, content) => this.onCreateTicket(sectionUuid, content)}
                                 key={section.uuid} section={section} boardUuid={board.uuid}
@@ -53,7 +54,7 @@ class BoardPage extends Component {
                                         ref={(node) => this.sectionNameInput = node}
                                     />
                                 </div>
-                                <RaisedButton disabled={this.props.loading} label="Create" primary={true} onTouchTap={() => this.onCreateSection()} />
+                                <RaisedButton disabled={this.props.loading} label="Create" primary={true} onClick={() => this.onCreateSection()} />
                             </div>
                         </Section>
                     </div>
@@ -84,4 +85,4 @@ class BoardPage extends Component {
     }
 }
 
-export default connect(BoardPage.mapStateToProps)(BoardPage);
+export default withRouter(connect(BoardPage.mapStateToProps)(BoardPage));

@@ -6,6 +6,7 @@ import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class Board {
     private String uuid;
     private String name;
     @Reference
-    private List<Section> sections;
+    private List<Section> sections = new ArrayList<>();
     
     public Board() {
         
