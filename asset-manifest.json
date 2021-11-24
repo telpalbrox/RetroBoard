@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/RetroBoard/static/css/main.dd591b5c.chunk.css",
+    "main.js": "/RetroBoard/static/js/main.dd89fdf0.chunk.js",
+    "main.js.map": "/RetroBoard/static/js/main.dd89fdf0.chunk.js.map",
+    "runtime-main.js": "/RetroBoard/static/js/runtime-main.df99ef79.js",
+    "runtime-main.js.map": "/RetroBoard/static/js/runtime-main.df99ef79.js.map",
+    "static/js/2.b15a777d.chunk.js": "/RetroBoard/static/js/2.b15a777d.chunk.js",
+    "static/js/2.b15a777d.chunk.js.map": "/RetroBoard/static/js/2.b15a777d.chunk.js.map",
+    "index.html": "/RetroBoard/index.html",
+    "static/css/main.dd591b5c.chunk.css.map": "/RetroBoard/static/css/main.dd591b5c.chunk.css.map",
+    "static/js/2.b15a777d.chunk.js.LICENSE.txt": "/RetroBoard/static/js/2.b15a777d.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.df99ef79.js",
+    "static/js/2.b15a777d.chunk.js",
+    "static/css/main.dd591b5c.chunk.css",
+    "static/js/main.dd89fdf0.chunk.js"
+  ]
+}
